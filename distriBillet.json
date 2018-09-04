@@ -1,0 +1,28 @@
+{
+	"comptes" : [
+		{
+			"id_compte": 111111,
+			"nom": "Venet",
+			"prenom": "Alexandre",
+			"solde": 1000,
+			"num_carte": 23658412548965742,
+			"code_cb": 1234
+		},
+		{
+			"id_compte": 222222,
+			"nom": "Louasse",
+			"prenom": "Maxime",
+			"solde": 20000,
+			"num_carte": 462514583965214587,
+			"code_cb": 2233
+		},
+		{
+			"id_compte": 333333,
+			"nom": "Houvin",
+			"prenom": "Corentin",
+			"solde": 1,
+			"num_carte": 45874125456325412,
+			"code_cb": 4321
+		}
+	]
+}
