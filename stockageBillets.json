@@ -1,0 +1,22 @@
+[
+	{
+		"valeurBillet": 5,
+		"nombre": 100
+	},
+	{
+		"valeurBillet": 10,
+		"nombre": 50
+	},
+	{
+		"valeurBillet": 20,
+		"nombre": 40
+	},
+	{
+		"valeurBillet": 50,
+		"nombre": 30
+	},
+	{
+		"valeurBillet": 100,
+		"nombre": 10
+	}
+]
