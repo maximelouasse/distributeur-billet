@@ -12,23 +12,35 @@
         <h1>Bonjour et Bienvenue au guichet de FC TURFU INTERNATIONNAL BANK</h1>
         
         <main>
-            <fieldset>
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                      <h2>Choissisez une des fonctions suivantes:</h2>
-                    </div>
-                  </div>
-                  
-                  <div class="row">
-                    <div class="col-md-3 col-sm-3 col-xs-6"> <a href="retirer.html" class="btn btn-sm animated-button victoria-one">Retirer de l'argent</a> </div>
-                    <div class="col-md-3 col-sm-3 col-xs-6"> <a href="virement.html" class="btn btn-sm animated-button victoria-two">Virement</a> </div>
-                    <div class="col-md-3 col-sm-3 col-xs-6"> <a href="premierecran.html" class="btn btn-sm animated-button victoria-three"> Reprendre votre carte  </a> </div>
-                  </div>
-            </fieldset>
 
+            <div id="connexion">
+                <button id="btnInsertCard" class="btn btn-sm animated-button victoria-one">Insérer votre carte</button>
 
-            <div id="montants">
+                <form id="formPin">
+                    <input id="password" name="password" type="password" maxlength="4" size="3" />
+                    <input type="submit" value="Valider">
+                </form>
+            </div>
 
+            <div id="menu">
+                <fieldset>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                          <h2>Choissisez une des fonctions suivantes:</h2>
+                        </div>
+                      </div>
+                      
+                      <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-6"> <a href="" id="retirerBtn" class="btn btn-sm animated-button victoria-one">Retirer de l'argent</a> </div>
+                        <div class="col-md-3 col-sm-3 col-xs-6"> <a href="virement.html" class="btn btn-sm animated-button victoria-two">Virement</a> </div>
+                        <div class="col-md-3 col-sm-3 col-xs-6"> <a href="index.html" class="btn btn-sm animated-button victoria-three"> Reprendre votre carte  </a> </div>
+                      </div>
+                </fieldset>
+            </div>
+
+            <div id="retirer">
+                <div id="montants">
+                </div>
             </div>
 
         </main>
@@ -36,6 +48,5 @@
     </body>
 
     <footer> 2018-2019 HOUVIN-LOUASSE-VENET </footer>
-
 
 </html>

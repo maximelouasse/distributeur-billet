@@ -55,6 +55,11 @@ VARIABLES
             "nombre": 10
         }
     ];
+    let btnInsertCard   = document.getElementById("btnInsertCard");
+    let formPin         = document.getElementById("formPin");
+    let menu            = document.getElementById("menu");
+    let retirerBtn      = document.getElementById("retirerBtn");
+    let retirer         = document.getElementById("retirer");
 //
 
 /*
@@ -107,13 +112,18 @@ METHODES*/
     }
 //
 
-/*
-Lancer l'application une fois la page chargée
-*/
-window.addEventListener( 'load', async () => {
-    // Charger le contenu de la page
-    let user = prompt("Saisir votre code : ");
-    
+
+// Function Click Insert Card
+btnInsertCard.addEventListener('click', () => {
+    formPin.style.display = "block";
+    btnInsertCard.style.display = "none";
+});
+
+formPin.addEventListener("submit", (e) =>{
+    e.preventDefault();
+    let inputPin = document.getElementById("password");
+    let user = inputPin.value;
+
     if(user != "")
     {
         let promise = Promise.resolve(getUser(user));
@@ -123,50 +133,58 @@ window.addEventListener( 'load', async () => {
 
             if(compteUser != undefined)
             {
-                displayMontants();
+                menu.style.display = "block";
+                formPin.style.display = "none";
 
-                //event
-                let montantsButton = document.querySelectorAll('.montant');
-                
-                
-                for(let i = 0; i < montantsButton.length; i++)
-                {
-                    montantsButton[i].addEventListener('click', () => {
-                        let solde = undefined;
-                        let montant = 0;
-                        if(montantsButton[i].value == 0)
-                        {
-                            montant = prompt("Saisir un montant : ");
+                retirerBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    retirer.style.display = "block";
+                    menu.style.display = "none";
 
-                            if(montant != "")
+                    displayMontants();
+
+                    //event
+                    let montantsButton = document.querySelectorAll('.montant');
+                    
+                    for(let i = 0; i < montantsButton.length; i++)
+                    {
+                        montantsButton[i].addEventListener('click', () => {
+                            let solde = undefined;
+                            let montant = 0;
+                            if(montantsButton[i].value == 0)
                             {
-                                solde = checkSolde(montant);
-                            }
-                        }
-                        else
-                        {
-                            solde = checkSolde(montantsButton[i].value);
-                        }
+                                montant = prompt("Saisir un montant : ");
 
-                        if(solde != false)
-                        {
-                            console.log(`Votre compte a un solde de ${compteUser.solde}€`);
-                            
-                            if(confirm("Voulez-vous un ticket de reçu ?"))
-                            {
-                                console.log("Et la nature vous y avez pensé ?");
+                                if(montant != "")
+                                {
+                                    solde = checkSolde(montant);
+                                }
                             }
                             else
                             {
-                                console.log("C'est bien vous pensez à la nature :) ");
+                                solde = checkSolde(montantsButton[i].value);
                             }
-                        }
-                        else
-                        {
-                            console.log(`Le solde de votre comtpte n'est pas suffisant pour retirer ${montant}€`);
-                        }
-                    });
-                }
+
+                            if(solde != false)
+                            {
+                                console.log(`Votre compte a un solde de ${compteUser.solde}€`);
+                                
+                                if(confirm("Voulez-vous un ticket de reçu ?"))
+                                {
+                                    console.log("Et la nature vous y avez pensé ?");
+                                }
+                                else
+                                {
+                                    console.log("C'est bien vous pensez à la nature :) ");
+                                }
+                            }
+                            else
+                            {
+                                console.log(`Le solde de votre comtpte n'est pas suffisant pour retirer ${montant}€`);
+                            }
+                        });
+                    }
+                });
             }
             else
             {
