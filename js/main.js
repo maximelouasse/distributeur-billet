@@ -1,10 +1,19 @@
 /*
 VARIABLES
 */
-    const montants = [20, 30, 40, 50, 60, 80, 100];
+    const montantBillet = [100, 50, 20, 10, 5];
     const montantsButton = document.getElementById('montants');
+    
     let compteUser = undefined;
     let erreurCode = 0;
+    let btnInsertCard = document.getElementById("btnInsertCard");
+    let formPin = document.getElementById("formPin");
+    let menu = document.getElementById("menu");
+    let retirerBtn = document.getElementById("retirerBtn");
+    let retirer = document.getElementById("retirer");
+    let gifSwallowCard = document.getElementById('swallow-card');
+    let resultBillet = document.getElementById('billet');
+    
     let jsonComptesUser = [
             {
                 "id_compte": 111111,
@@ -32,7 +41,6 @@ VARIABLES
             }
     ];
 
-    let montantBillet = [100, 50, 20, 10, 5];
     let stockageBillet = [
         {
             "valeurBillet": 5,
@@ -55,11 +63,6 @@ VARIABLES
             "nombre": 10
         }
     ];
-    let btnInsertCard   = document.getElementById("btnInsertCard");
-    let formPin         = document.getElementById("formPin");
-    let menu            = document.getElementById("menu");
-    let retirerBtn      = document.getElementById("retirerBtn");
-    let retirer         = document.getElementById("retirer");
 //
 
 /*
@@ -78,17 +81,13 @@ METHODES*/
             {
                 return comptes[compte];
             }
-            else
-            {
-                return false;
-            }
         }
     }
 
     const displayMontants = () => {
-        for(let i = 0; i < montants.length; i++)
+        for(let i = montantBillet.length - 1; i >= 0; i--)
         {
-            montantsButton.innerHTML += `<button type="button" class="montant" value="${montants[i]}">${montants[i]}€</button>`;
+            montantsButton.innerHTML += `<button type="button" class="montant" value="${montantBillet[i]}">${montantBillet[i]}€</button>`;
         }
         montantsButton.innerHTML += `<button type="button" class="montant" value="0">Choisir le montant</button>`;
     }
@@ -108,7 +107,27 @@ METHODES*/
     }
 
     const calculBillet = (montant) => {
-        
+        let quantite = 0;
+        let result = [];
+        for(let i = 0; i < montantBillet.length; i++)
+        {
+            if(montantBillet[i] <= montant)
+            {
+                quantite = montant / montantBillet[i];
+                if(quantite >= 1)
+                {
+                    quantite = Math.trunc(quantite);
+                }
+
+                if(quantite % 1 === 0)
+                {
+                    montant = montant % montantBillet[i];
+                    result.push({"quantite": quantite, "montantBillet": montantBillet[i]});
+                }
+            }
+        }
+
+        return result;
     }
 //
 
@@ -119,7 +138,7 @@ btnInsertCard.addEventListener('click', () => {
     btnInsertCard.style.display = "none";
 });
 
-formPin.addEventListener("submit", (e) =>{
+formPin.addEventListener("submit", (e) => {
     e.preventDefault();
     let inputPin = document.getElementById("password");
     let user = inputPin.value;
@@ -130,7 +149,7 @@ formPin.addEventListener("submit", (e) =>{
         promise.then(function(value)
         {
             compteUser = value;
-
+            
             if(compteUser != undefined)
             {
                 menu.style.display = "block";
@@ -144,44 +163,60 @@ formPin.addEventListener("submit", (e) =>{
                     displayMontants();
 
                     //event
-                    let montantsButton = document.querySelectorAll('.montant');
+                    let arrayMontantsButton = document.querySelectorAll('.montant');
                     
-                    for(let i = 0; i < montantsButton.length; i++)
+                    for(let i = 0; i < arrayMontantsButton.length; i++)
                     {
-                        montantsButton[i].addEventListener('click', () => {
+                        arrayMontantsButton[i].addEventListener('click', () => {
                             let solde = undefined;
                             let montant = 0;
-                            if(montantsButton[i].value == 0)
+                            let billets;
+                            
+                            if(arrayMontantsButton[i].value == 0)
                             {
                                 montant = prompt("Saisir un montant : ");
 
                                 if(montant != "")
                                 {
                                     solde = checkSolde(montant);
+                                    billets = calculBillet(montant);
                                 }
                             }
                             else
                             {
-                                solde = checkSolde(montantsButton[i].value);
+                                solde = checkSolde(arrayMontantsButton[i].value);
+                                billets = calculBillet(arrayMontantsButton[i].value);
                             }
 
                             if(solde != false)
-                            {
-                                console.log(`Votre compte a un solde de ${compteUser.solde}€`);
-                                
+                            {   
                                 if(confirm("Voulez-vous un ticket de reçu ?"))
                                 {
-                                    console.log("Et la nature vous y avez pensé ?");
+                                    setTimeout(function() {
+                                        resultBillet.innerHTML = '<img src="./img/giphy4.gif" alt="" width="75%" height="75%">';
+                                        resultBillet.innerHTML += '<p>Votre ticket, pas de quoi être fier de vous !</p>';
+                                    }, 4000);
                                 }
-                                else
+
+                                resultBillet.innerHTML = '<img src="./img/giphy.gif" alt="" width="70%" height="70%">';
+                                resultBillet.innerHTML += `<p> Vous retirez: <ul>`;
+
+                                for(let billet in billets)
                                 {
-                                    console.log("C'est bien vous pensez à la nature :) ");
+                                    resultBillet.innerHTML += `<li>${billets[billet].quantite} billet(s) de ${billets[billet].montantBillet}€</li>`;
                                 }
+
+                                resultBillet.innerHTML += `</ul></p>`;
+                                resultBillet.innerHTML += `<p>Votre nouveau solde est de ${compteUser.solde} € !</p>`;
                             }
                             else
                             {
-                                console.log(`Le solde de votre comtpte n'est pas suffisant pour retirer ${montant}€`);
+                                resultBillet.innerHTML += '<img src="./img/giphy3.gif" alt="" width="75%" height="75%">';
+                                resultBillet.innerHTML += `<p>Tu ne possèdes pas le montant ${montant}€, tu es trop pauvre !</p>`
                             }
+
+                            montantsButton.style.display = "none";
+                            resultBillet.style.display = "block";
                         });
                     }
                 });
@@ -189,7 +224,17 @@ formPin.addEventListener("submit", (e) =>{
             else
             {
                 erreurCode++;
-                console.log('pas de compte' + erreurCode);
+
+                if(erreurCode === 3)
+                {
+                    formPin.style.display = "none";
+                    gifSwallowCard.style.display = "block";
+                }
+                else
+                {
+                    alert(`Votre code est erronné, il vous reste ${3 - erreurCode} chance(s)`);
+                    inputPin.value = "";
+                }
             }
         });
     }
