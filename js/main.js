@@ -4,6 +4,7 @@ VARIABLES
     const montants = [20, 30, 40, 50, 60, 80, 100];
     const montantsButton = document.getElementById('montants');
     let compteUser = undefined;
+    let erreurCode = 0;
     let jsonComptesUser = [
             {
                 "id_compte": 111111,
@@ -30,6 +31,30 @@ VARIABLES
                 "code_cb": 4321
             }
     ];
+
+    let montantBillet = [100, 50, 20, 10, 5];
+    let stockageBillet = [
+        {
+            "valeurBillet": 5,
+            "nombre": 100
+        },
+        {
+            "valeurBillet": 10,
+            "nombre": 50
+        },
+        {
+            "valeurBillet": 20,
+            "nombre": 40
+        },
+        {
+            "valeurBillet": 50,
+            "nombre": 30
+        },
+        {
+            "valeurBillet": 100,
+            "nombre": 10
+        }
+    ];
 //
 
 /*
@@ -47,6 +72,10 @@ METHODES*/
             if(code_cb == comptes[compte].code_cb)
             {
                 return comptes[compte];
+            }
+            else
+            {
+                return false;
             }
         }
     }
@@ -71,6 +100,10 @@ METHODES*/
                 return false;
             }
         }
+    }
+
+    const calculBillet = (montant) => {
+        
     }
 //
 
@@ -137,7 +170,8 @@ window.addEventListener( 'load', async () => {
             }
             else
             {
-                console.log('pas de compte');
+                erreurCode++;
+                console.log('pas de compte' + erreurCode);
             }
         });
     }
